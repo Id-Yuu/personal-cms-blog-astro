@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.jsx';
+import Nav from '../components/Nav.jsx';
+import Footer from '../components/Footer.jsx';
+
+const { title } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+// Fetch global settings
+let settings = { headerTitle: 'Blog', headerDesc: 'Loading...', footerText: '© 2025' };
+try {
+  const res = await fetch('http://localhost:4000/settings');
+  if (res.ok) {
+    settings = await res.json();
+  }
+} catch (e) {
+  console.error("Could not fetch settings");
+}
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} - Blog</title>
+  </head>
+  <body>
+    <div id="root">
+      <div class="container">
+        <Header title={settings.headerTitle} desc={settings.headerDesc} />
+        <Nav currentPath={currentPath} />
+        <div class="main">
+          <slot />
+        </div>
+        <Footer text={settings.footerText} />
+      </div>
+    </div>
+  </body>
+</html>

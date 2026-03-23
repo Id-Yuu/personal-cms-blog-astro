@@ -1,0 +1,10 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import LoginForm from '../components/LoginForm.jsx';
+---
+<MainLayout title="Login">
+  <main class="main-wrapper" style="width: 100%; max-width: 400px; margin: 0 auto;">
+    <h2>Admin Login</h2>
+    <LoginForm client:load /> 
+  </main>
+</MainLayout>

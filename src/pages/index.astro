@@ -1,0 +1,41 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Sidebar from '../components/Sidebar.jsx';
+import PostList from '../components/PostList.jsx';
+
+// 1. Fetch Global Settings to get the pagination limit
+let settings = { postsPerPage: 3 }; 
+try {
+  const settingsRes = await fetch('http://localhost:4000/settings');
+  if (settingsRes.ok) {
+    settings = await settingsRes.json();
+  }
+} catch (e) {
+  console.error("Could not fetch settings");
+}
+
+const limit = settings.postsPerPage || 3;
+
+// 2. Fetch the FIRST page of posts (Sorted by newest first)
+let initialPosts = [];
+try {
+  const postsRes = await fetch(`http://localhost:4000/posts?_sort=id&_order=desc&_page=1&_limit=${limit}`);
+  if (postsRes.ok) {
+    initialPosts = await postsRes.json();
+  }
+} catch (e) {
+  console.error("Could not fetch posts");
+}
+---
+
+<MainLayout title="Home">
+  <main class="main-wrapper">
+    <PostList 
+      client:load 
+      initialPosts={initialPosts} 
+      postsPerPage={limit} 
+    />
+  </main>
+  
+  <Sidebar client:load />
+</MainLayout>

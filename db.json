@@ -1,0 +1,39 @@
+{
+  "widgets": [
+    {
+      "title": "Info",
+      "content": "Donasi cuk",
+      "links": [
+        {
+          "text": "Paypal",
+          "url": "https://web.facebook.com/"
+        }
+      ],
+      "id": "1774270693243"
+    }
+  ],
+  "sidebars": [
+    {
+      "title": "Pages",
+      "content": "Usefull pages",
+      "links": [
+        {
+          "text": "About",
+          "url": "/about"
+        },
+        {
+          "text": "Contact",
+          "url": "/contact"
+        }
+      ],
+      "id": "1774218577652"
+    }
+  ],
+  "settings": {
+    "headerTitle": "Kocak Gaming",
+    "headerDesc": "Template Blog Astro",
+    "footerText": "© 2026 Kocak Gaming. All rights reserved.",
+    "postsPerPage": 3
+  },
+  "$schema": "./node_modules/json-server/schema.json"
+}

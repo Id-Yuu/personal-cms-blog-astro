@@ -1,0 +1,21 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Sidebar from '../components/Sidebar.jsx';
+---
+
+<MainLayout title="About">
+  <main class="main-wrapper">
+    <h2>About</h2>
+    <div class="blog-post">
+        <div class="image">
+            <img src="/img/sample.png" alt="About Image" />
+        </div>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+            voluptates, quas, quos, quod quae quia quibusdam voluptate
+            voluptatem quae quia quibusdam voluptate voluptatem.
+        </p>
+    </div>
+  </main>
+  <Sidebar />
+</MainLayout>

@@ -1,0 +1,27 @@
+{
+  "name": "personal-cms-blog-astro",
+  "type": "module",
+  "version": "0.0.5",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "concurrently \"astro dev\" \"node server.js\"",
+    "start": "concurrently \"astro dev\" \"node server.js\"",
+    "build": "astro check && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.8",
+    "@astrojs/react": "^5.0.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^6.0.8",
+    "concurrently": "^9.2.1",
+    "json-server": "^0.17.4",
+    "multer": "^2.1.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-simple-wysiwyg": "^3.4.1"
+  }
+}
