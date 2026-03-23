@@ -17,7 +17,7 @@ export default function Sidebar() {
       {widgets.map(widget => (
         <div className="widget" key={widget.id}>
           <h4>{widget.title}</h4>
-          {widget.content && <p style={{ marginBottom: '10px' }}>{widget.content}</p>}
+          {widget.content && <p className="widget-content">{widget.content}</p>}
           
           {/* Render Link Lists if they exist */}
           {widget.links && widget.links.length > 0 && (

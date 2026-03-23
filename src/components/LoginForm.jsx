@@ -37,7 +37,7 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleLogin}>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className="form-error">{error}</p>}
       <div className="form-group">
         <label>Username</label>
         <input type="text" value={username} onChange={e => setUsername(e.target.value)} required />

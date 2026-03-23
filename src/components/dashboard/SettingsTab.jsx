@@ -22,35 +22,35 @@ export default function SettingsTab({ settingsForm, isSavingSettings, saveSettin
   };
 
   return (
-    <div style={{ background: '#fff', padding: '25px', border: '1px solid #ccc', borderRadius: '8px', marginBottom: '30px' }}>
+    <div className="form-panel form-panel--padded">
       <h3>Global Settings</h3>
-      <p style={{ color: '#666', marginBottom: '20px', fontSize: '0.95rem' }}>Configure basic details of your blog. Additional features can be added to this panel in the future.</p>
+      <p className="form-note-muted">Configure basic details of your blog. Additional features can be added to this panel in the future.</p>
 
-      <form onSubmit={handleSettingsSubmit} style={{ maxWidth: '600px' }}>
-        <div className="form-group" style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'block', marginBottom: '5px' }}>Blog Name (Header Title)</label>
+      <form onSubmit={handleSettingsSubmit} className="form-max-width">
+        <div className="form-group">
+          <label className="form-label">Blog Name (Header Title)</label>
           <input type="text" name="headerTitle" value={localForm.headerTitle || ''} onChange={handleSettingsChange} required />
         </div>
 
-        <div className="form-group" style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'block', marginBottom: '5px' }}>Blog Description (Header Subtitle)</label>
+        <div className="form-group">
+          <label className="form-label">Blog Description (Header Subtitle)</label>
           <input type="text" name="headerDesc" value={localForm.headerDesc || ''} onChange={handleSettingsChange} required />
         </div>
 
-        <hr style={{ border: 'none', borderTop: '1px solid #eee', margin: '25px 0' }} />
+        <hr className="form-actions-sep" />
 
-        <div className="form-group" style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'block', marginBottom: '5px' }}>Footer Text / Copyright</label>
+        <div className="form-group">
+          <label className="form-label">Footer Text / Copyright</label>
           <input type="text" name="footerText" value={localForm.footerText || ''} onChange={handleSettingsChange} required />
         </div>
 
-        <hr style={{ margin: '25px 0' }} />
+        <hr className="form-actions-sep" />
 
-        <div className="form-group" style={{ marginBottom: '25px' }}>
-          <label style={{ display: 'block', marginBottom: '5px' }}>
+        <div className="form-group">
+          <label className="form-label">
             Posts Per Page (Load More limit)
           </label>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div className="form-inline-group">
             <input
               type="number"
               name="postsPerPage"
@@ -59,18 +59,18 @@ export default function SettingsTab({ settingsForm, isSavingSettings, saveSettin
               min="1"
               max="50"
               required
-              style={{ width: '120px' }}
+              className="input-narrow"
             />
-            <span style={{ fontSize: '0.9rem', color: '#555', backgroundColor: '#f4f4f4', padding: '8px 12px', borderRadius: '4px', border: '1px solid #ddd' }}>
+            <span className="form-note-badge">
               Current setting: <strong>{localForm.postsPerPage}</strong> posts
             </span>
           </div>
-          <small style={{ display: 'block', marginTop: '8px', color: '#666', fontSize: '0.85rem' }}>
+          <small className="form-note-small">
             Determines how many posts appear on the homepage initially, and how many new posts are fetched when the "Load More" button is clicked.
           </small>
         </div>
 
-        <button type="submit" className="btn" style={{ backgroundColor: '#28a745', color: '#fff', marginTop: '10px' }} disabled={isSavingSettings}>
+        <button type="submit" className="btn btn-success" disabled={isSavingSettings}>
           {isSavingSettings ? 'Saving...' : 'Save Settings'}
         </button>
       </form>

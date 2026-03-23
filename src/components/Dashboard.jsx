@@ -29,18 +29,18 @@ export default function Dashboard() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+      <div className="dashboard-header">
         <h2>Dashboard</h2>
-        <button onClick={logout} className="btn" style={{ backgroundColor: '#dc3545', color: '#fff' }}>Logout</button>
+        <button onClick={logout} className="btn btn-danger">Logout</button>
       </div>
 
       {/* Tabs Menu */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', borderBottom: '2px solid #ccc', paddingBottom: '10px', flexWrap: 'wrap' }}>
-        <button onClick={() => setActiveTab('posts')} className="btn" style={{ backgroundColor: activeTab === 'posts' ? '#333' : '#ccc', color: activeTab === 'posts' ? '#fff' : '#000', border: 'none' }}>Manage Posts</button>
-        {isAdmin && <button onClick={() => setActiveTab('sidebars')} className="btn" style={{ backgroundColor: activeTab === 'sidebars' ? '#333' : '#ccc', color: activeTab === 'sidebars' ? '#fff' : '#000', border: 'none' }}>Manage Sidebars</button>}
-        {isAdmin && <button onClick={() => setActiveTab('widgets')} className="btn" style={{ backgroundColor: activeTab === 'widgets' ? '#333' : '#ccc', color: activeTab === 'widgets' ? '#fff' : '#000', border: 'none' }}>Manage Top Widgets</button>}
-        {isAdmin && <button onClick={() => setActiveTab('users')} className="btn" style={{ backgroundColor: activeTab === 'users' ? '#333' : '#ccc', color: activeTab === 'users' ? '#fff' : '#000', border: 'none' }}>Manage Users</button>}
-        {isAdmin && <button onClick={() => setActiveTab('settings')} className="btn" style={{ backgroundColor: activeTab === 'settings' ? '#333' : '#ccc', color: activeTab === 'settings' ? '#fff' : '#000', border: 'none' }}>Settings</button>}
+      <div className="tab-bar">
+        <button onClick={() => setActiveTab('posts')} className={`btn tab-btn ${activeTab === 'posts' ? 'tab-btn--active' : ''}`}>Manage Posts</button>
+        {isAdmin && <button onClick={() => setActiveTab('sidebars')} className={`btn tab-btn ${activeTab === 'sidebars' ? 'tab-btn--active' : ''}`}>Manage Sidebars</button>}
+        {isAdmin && <button onClick={() => setActiveTab('widgets')} className={`btn tab-btn ${activeTab === 'widgets' ? 'tab-btn--active' : ''}`}>Manage Top Widgets</button>}
+        {isAdmin && <button onClick={() => setActiveTab('users')} className={`btn tab-btn ${activeTab === 'users' ? 'tab-btn--active' : ''}`}>Manage Users</button>}
+        {isAdmin && <button onClick={() => setActiveTab('settings')} className={`btn tab-btn ${activeTab === 'settings' ? 'tab-btn--active' : ''}`}>Settings</button>}
       </div>
 
       {/* Tab Content */}

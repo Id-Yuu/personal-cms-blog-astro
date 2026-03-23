@@ -50,34 +50,34 @@ export default function WidgetTab({ widgets, createWidget, updateWidget, deleteW
 
   return (
     <>
-      <div style={{ background: '#fff', padding: '20px', border: '1px solid #ccc', marginBottom: '30px', borderRadius: '8px' }}>
+      <div className="form-panel">
         <h3>{isEditingWidget ? 'Edit Top Widget' : 'Add New Top Widget'}</h3>
         <form onSubmit={handleWidgetSubmit}>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Widget Title</label>
+          <div className="form-group">
+            <label className="form-label">Widget Title</label>
             <input type="text" name="title" value={widgetForm.title} onChange={handleWidgetChange} placeholder="e.g. Announcement, Deals" required />
           </div>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Widget Content/Description (Optional)</label>
+          <div className="form-group">
+            <label className="form-label">Widget Content/Description (Optional)</label>
             <textarea name="content" value={widgetForm.content} onChange={handleWidgetChange} rows="3" placeholder="Brief text to display" />
           </div>
 
-          <div className="form-group" style={{ padding: '15px', background: '#f9f9f9', border: '1px dashed #ccc', marginBottom: '15px', borderRadius: '4px' }}>
-            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>Widget Buttons (Optional)</label>
+          <div className="form-group form-link-group">
+            <label className="form-label--bold">Widget Buttons (Optional)</label>
             {(widgetForm.links || []).map((link, index) => (
-              <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'center' }}>
-                <input type="text" placeholder="Button Text" value={link.text} onChange={(e) => updateLink(index, 'text', e.target.value)} required style={{ flex: 1 }} />
-                <input type="text" placeholder="URL target" value={link.url} onChange={(e) => updateLink(index, 'url', e.target.value)} required style={{ flex: 1 }} />
-                <button type="button" onClick={() => removeLink(index)} className="btn" style={{ backgroundColor: '#dc3545', padding: '10px 14px' }}>X</button>
+              <div key={index} className="form-link-row">
+                <input type="text" placeholder="Button Text" value={link.text} onChange={(e) => updateLink(index, 'text', e.target.value)} required />
+                <input type="text" placeholder="URL target" value={link.url} onChange={(e) => updateLink(index, 'url', e.target.value)} required />
+                <button type="button" onClick={() => removeLink(index)} className="btn btn-danger">X</button>
               </div>
             ))}
-            <button type="button" onClick={addLink} className="btn" style={{ backgroundColor: '#17a2b8', marginTop: '10px' }}>+ Add Button</button>
+            <button type="button" onClick={addLink} className="btn btn-info">+ Add Button</button>
           </div>
 
-          <button type="submit" className="btn" style={{ backgroundColor: isEditingWidget ? '#28a745' : '#007bff' }}>
+          <button type="submit" className={`btn ${isEditingWidget ? 'btn-success' : 'btn-primary'}`}>
             {isEditingWidget ? 'Update Widget' : 'Create Widget'}
           </button>
-          {isEditingWidget && <button type="button" onClick={cancelWidgetEdit} className="btn" style={{ marginLeft: '10px', backgroundColor: '#6c757d' }}>Cancel</button>}
+          {isEditingWidget && <button type="button" onClick={cancelWidgetEdit} className="btn btn-secondary btn-margin-left">Cancel</button>}
         </form>
       </div>
 

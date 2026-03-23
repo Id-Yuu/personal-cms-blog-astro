@@ -45,30 +45,30 @@ export default function PostsTab({ posts, createPost, updatePost, deletePost }) 
 
   return (
     <>
-      <div style={{ background: '#fff', padding: '20px', border: '1px solid #ccc', marginBottom: '30px', borderRadius: '8px' }}>
+      <div className="form-panel">
         <h3>{isEditingPost ? 'Edit Post' : 'Add New Post'}</h3>
         <form onSubmit={handlePostSubmit}>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Title</label>
+          <div className="form-group">
+            <label className="form-label">Title</label>
             <input type="text" name="title" value={postForm.title} onChange={e => setPostForm({ ...postForm, title: e.target.value })} required />
           </div>
-          <div className="form-group" style={{ marginBottom: '25px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Content</label>
+          <div className="form-group">
+            <label className="form-label">Content</label>
             <DefaultEditor 
               value={postForm.content || ''} 
               onChange={e => setPostForm({ ...postForm, content: e.target.value })} 
-              style={{ background: '#fff', minHeight: '200px' }}
+              className="wysiwyg-editor"
             />
           </div>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Upload Image</label>
-            {existingImage && isEditingPost && <img src={existingImage} alt="Current" style={{ width: '100px', display: 'block', marginBottom: '10px' }} />}
-            <input type="file" id="imageInput" accept="image/*" onChange={e => setImageFile(e.target.files[0])} style={{ padding: '0', border: 'none' }} />
+          <div className="form-group">
+            <label className="form-label">Upload Image</label>
+            {existingImage && isEditingPost && <img src={existingImage} alt="Current" className="form-image-preview" />}
+            <input type="file" id="imageInput" accept="image/*" onChange={e => setImageFile(e.target.files[0])} className="form-file-input" />
           </div>
-          <button type="submit" className="btn" style={{ backgroundColor: isEditingPost ? '#28a745' : '#007bff' }}>
+          <button type="submit" className={`btn ${isEditingPost ? 'btn-success' : 'btn-primary'}`}>
             {isEditingPost ? 'Update Post' : 'Publish Post'}
           </button>
-          {isEditingPost && <button type="button" onClick={cancelPostEdit} className="btn" style={{ marginLeft: '10px', backgroundColor: '#6c757d' }}>Cancel</button>}
+          {isEditingPost && <button type="button" onClick={cancelPostEdit} className="btn btn-secondary btn-margin-left">Cancel</button>}
         </form>
       </div>
 

@@ -50,34 +50,34 @@ export default function SidebarsTab({ sidebars, createSidebar, updateSidebar, de
 
   return (
     <>
-      <div style={{ background: '#fff', padding: '20px', border: '1px solid #ccc', marginBottom: '30px', borderRadius: '8px' }}>
+      <div className="form-panel">
         <h3>{isEditingSidebar ? 'Edit Sidebar Widget' : 'Add New Sidebar Widget'}</h3>
         <form onSubmit={handleSidebarSubmit}>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Widget Title</label>
+          <div className="form-group">
+            <label className="form-label">Widget Title</label>
             <input type="text" name="title" value={sidebarForm.title} onChange={handleSidebarChange} placeholder="e.g. Categories, Useful Links" required />
           </div>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Widget Content/Description (Optional)</label>
+          <div className="form-group">
+            <label className="form-label">Widget Content/Description (Optional)</label>
             <textarea name="content" value={sidebarForm.content} onChange={handleSidebarChange} rows="3" placeholder="Brief text to display under title" />
           </div>
 
-          <div className="form-group" style={{ padding: '15px', background: '#f9f9f9', border: '1px dashed #ccc', marginBottom: '15px', borderRadius: '4px' }}>
-            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold' }}>Widget Links (Optional)</label>
+          <div className="form-group form-link-group">
+            <label className="form-label--bold">Widget Links (Optional)</label>
             {(sidebarForm.links || []).map((link, index) => (
-              <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'center' }}>
-                <input type="text" placeholder="Link Text" value={link.text} onChange={(e) => updateLink(index, 'text', e.target.value)} required style={{ flex: 1 }} />
-                <input type="text" placeholder="URL" value={link.url} onChange={(e) => updateLink(index, 'url', e.target.value)} required style={{ flex: 1 }} />
-                <button type="button" onClick={() => removeLink(index)} className="btn" style={{ backgroundColor: '#dc3545', padding: '10px 14px' }}>X</button>
+              <div key={index} className="form-link-row">
+                <input type="text" placeholder="Link Text" value={link.text} onChange={(e) => updateLink(index, 'text', e.target.value)} required />
+                <input type="text" placeholder="URL" value={link.url} onChange={(e) => updateLink(index, 'url', e.target.value)} required />
+                <button type="button" onClick={() => removeLink(index)} className="btn btn-danger">X</button>
               </div>
             ))}
-            <button type="button" onClick={addLink} className="btn" style={{ backgroundColor: '#17a2b8', marginTop: '10px' }}>+ Add Link</button>
+            <button type="button" onClick={addLink} className="btn btn-info">+ Add Link</button>
           </div>
 
-          <button type="submit" className="btn" style={{ backgroundColor: isEditingSidebar ? '#28a745' : '#007bff' }}>
+          <button type="submit" className={`btn ${isEditingSidebar ? 'btn-success' : 'btn-primary'}`}>
             {isEditingSidebar ? 'Update Widget' : 'Create Widget'}
           </button>
-          {isEditingSidebar && <button type="button" onClick={cancelSidebarEdit} className="btn" style={{ marginLeft: '10px', backgroundColor: '#6c757d' }}>Cancel</button>}
+          {isEditingSidebar && <button type="button" onClick={cancelSidebarEdit} className="btn btn-secondary btn-margin-left">Cancel</button>}
         </form>
       </div>
 

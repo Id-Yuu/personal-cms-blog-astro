@@ -48,7 +48,7 @@ export default function PostList({ initialPosts, postsPerPage }) {
               <p className="post-preview-text">
                 {(post.content || '').replace(/<[^>]*>?/gm, '')}
               </p>
-              <a href={`/posts/${post.id}`} className="btn" style={{ padding: '6px 12px', fontSize: '0.9rem' }}>Read More</a>
+              <a href={`/posts/${post.id}`} className="btn btn-sm">Read More</a>
             </div>
           </div>
         </div>
@@ -57,8 +57,8 @@ export default function PostList({ initialPosts, postsPerPage }) {
       {posts.length === 0 && <p>No posts available yet.</p>}
 
       {hasMore && (
-        <div style={{ textAlign: 'center', marginTop: '30px' }}>
-          <button onClick={loadMorePosts} className="btn" disabled={isLoading} style={{ padding: '12px 30px', fontSize: '1.1rem' }}>
+        <div className="load-more-wrap">
+          <button onClick={loadMorePosts} className="btn btn-load-more" disabled={isLoading}>
             {isLoading ? 'Loading...' : 'Load More Posts'}
           </button>
         </div>

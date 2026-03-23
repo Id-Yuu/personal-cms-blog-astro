@@ -40,30 +40,30 @@ export default function UsersTab({ users, createUser, updateUser, deleteUser }) 
 
   return (
     <>
-      <div style={{ background: '#fff', padding: '20px', border: '1px solid #ccc', marginBottom: '30px', borderRadius: '8px' }}>
+      <div className="form-panel">
         <h3>{isEditingUser ? 'Edit User' : 'Add New User'}</h3>
         <form onSubmit={handleUserSubmit}>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Username</label>
+          <div className="form-group">
+            <label className="form-label">Username</label>
             <input type="text" name="username" value={userForm.username} onChange={handleUserChange} required />
           </div>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Password {isEditingUser && "(Leave blank to keep existing password)"}</label>
+          <div className="form-group">
+            <label className="form-label">Password {isEditingUser && "(Leave blank to keep existing password)"}</label>
             <input type="password" name="password" value={userForm.password} onChange={handleUserChange} required={!isEditingUser} />
           </div>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Role</label>
-            <select name="role" value={userForm.role} onChange={handleUserChange} style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '4px', background: '#fff' }}>
+          <div className="form-group">
+            <label className="form-label">Role</label>
+            <select name="role" value={userForm.role} onChange={handleUserChange} className="select-styled">
               <option value="admin">Admin</option>
               <option value="editor">Editor</option>
               <option value="author">Author</option>
             </select>
           </div>
 
-          <button type="submit" className="btn" style={{ backgroundColor: isEditingUser ? '#28a745' : '#007bff' }}>
+          <button type="submit" className={`btn ${isEditingUser ? 'btn-success' : 'btn-primary'}`}>
             {isEditingUser ? 'Update User' : 'Create User'}
           </button>
-          {isEditingUser && <button type="button" onClick={cancelUserEdit} className="btn" style={{ marginLeft: '10px', backgroundColor: '#6c757d' }}>Cancel</button>}
+          {isEditingUser && <button type="button" onClick={cancelUserEdit} className="btn btn-secondary btn-margin-left">Cancel</button>}
         </form>
       </div>
 

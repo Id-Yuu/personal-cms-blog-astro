@@ -32,43 +32,24 @@ export default function TopWidget() {
   if (visibleWidgets.length === 0) return null;
 
   return (
-    <div className="top-widgets" style={{ marginBottom: '25px' }}>
+    <div className="top-widgets">
       {visibleWidgets.map(widget => (
-        <div key={widget.id} style={{ 
-          background: '#f8f9fa', 
-          borderLeft: '4px solid #0066cc', 
-          padding: '15px 20px', 
-          marginBottom: '15px',
-          borderRadius: '4px',
-          boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
-          position: 'relative'
-        }}>
+        <div key={widget.id} className="top-widget-item">
           {/* Close / Dismiss Button */}
           <button 
             onClick={() => handleDismiss(widget.id)}
-            style={{ 
-              position: 'absolute', 
-              top: '10px', 
-              right: '15px', 
-              background: 'transparent', 
-              border: 'none', 
-              cursor: 'pointer', 
-              fontSize: '1.2rem', 
-              color: '#888',
-              padding: 0,
-              lineHeight: 1
-            }}
+            className="top-widget-dismiss"
             aria-label="Dismiss this notification"
           >
             &times;
           </button>
           
-          {widget.title && <h4 style={{ margin: '0 0 8px 0', fontSize: '1.15rem', color: '#111', paddingRight: '20px' }}>{widget.title}</h4>}
-          {widget.content && <p style={{ margin: '0 0 12px 0', color: '#444' }}>{widget.content}</p>}
+          {widget.title && <h4 className="top-widget-title">{widget.title}</h4>}
+          {widget.content && <p className="top-widget-text">{widget.content}</p>}
           {widget.links && widget.links.length > 0 && (
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            <div className="top-widget-links">
               {widget.links.map((link, index) => (
-                <a key={index} href={link.url} className="btn" style={{ padding: '6px 14px', fontSize: '0.9rem', backgroundColor: '#0066cc', color: '#fff' }}>
+                <a key={index} href={link.url} className="btn top-widget-link">
                   {link.text}
                 </a>
               ))}
