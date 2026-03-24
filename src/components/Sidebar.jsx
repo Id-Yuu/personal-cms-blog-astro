@@ -10,7 +10,7 @@ export default function Sidebar() {
       .catch(err => console.error("Error fetching sidebars:", err));
   }, []);
 
-  if (widgets.length === 0) return null; // Hide if no sidebars exist
+  // if (widgets.length === 0) return null; // Hide if no sidebars exist
 
   return (
     <aside className="main-side">
@@ -18,7 +18,7 @@ export default function Sidebar() {
         <div className="widget" key={widget.id}>
           <h4>{widget.title}</h4>
           {widget.content && <p className="widget-content">{widget.content}</p>}
-          
+
           {/* Render Link Lists if they exist */}
           {widget.links && widget.links.length > 0 && (
             <ul>

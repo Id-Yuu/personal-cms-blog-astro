@@ -30,7 +30,30 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage });
+const imageFileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed!'), false);
+  }
+};
+
+const upload = multer({ storage, fileFilter: imageFileFilter });
+
+const settingStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, 'public', 'img-setting');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, 'settings-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const uploadSetting = multer({ storage: settingStorage, fileFilter: imageFileFilter });
 
 server.use(middlewares);
 // Enable CORS for frontend communication
@@ -94,6 +117,15 @@ server.post('/upload', upload.single('image'), (req, res) => {
     res.status(200).json({ imageUrl: `/img/${req.file.filename}` });
   } else {
     res.status(400).json({ error: 'Upload failed' });
+  }
+});
+
+// Custom Setting Image Upload Endpoint
+server.post('/upload/setting', uploadSetting.single('image'), (req, res) => {
+  if (req.file) {
+    res.status(200).json({ imageUrl: `/img-setting/${req.file.filename}` });
+  } else {
+    res.status(400).json({ error: 'Setting upload failed' });
   }
 });
 

@@ -1,8 +1,12 @@
-export default function Header({ title, desc }) {
+export default function Header({ title, desc, showHeaderTitle = true }) {
   return (
     <header className="header">
-      <h1>{title}</h1>
-      <p>{desc}</p>
+      {showHeaderTitle !== false && (
+        <>
+          <h1>{title}</h1>
+          <p>{desc}</p>
+        </>
+      )}
     </header>
   );
 }

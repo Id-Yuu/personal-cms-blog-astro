@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.jsx';
 import Nav from '../components/Nav.jsx';
 import Footer from '../components/Footer.jsx';
+import BackToTop from '../components/BackToTop.jsx';
 
 const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
@@ -17,24 +18,40 @@ try {
 } catch (e) {
   console.error("Could not fetch settings");
 }
+
+let bgLayers = [];
+if (settings.bodyBgImageLeft) {
+  bgLayers.push(`url(${settings.bodyBgImageLeft}) ${settings.bodyBgPositionLeft || 'left top'} / ${settings.bodyBgSizeLeft || 'auto'} no-repeat`);
+}
+if (settings.bodyBgImageRight) {
+  bgLayers.push(`url(${settings.bodyBgImageRight}) ${settings.bodyBgPositionRight || 'right top'} / ${settings.bodyBgSizeRight || 'auto'} no-repeat`);
+}
+const bodyBgCustom = bgLayers.length > 0 ? bgLayers.join(', ') + ', var(--bg-color)' : null;
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme={settings.themeMode === 'dark' ? 'dark' : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} - Blog</title>
+    <style is:inline set:html={`
+      :root {
+        ${settings.headerBgImage ? `--header-bg-image: url(${settings.headerBgImage});` : ''}
+        ${bodyBgCustom ? `--body-bg-custom: ${bodyBgCustom};` : ''}
+      }
+    `}></style>
   </head>
   <body>
     <div id="root">
       <div class="container">
-        <Header title={settings.headerTitle} desc={settings.headerDesc} />
+        <Header title={settings.headerTitle} desc={settings.headerDesc} showHeaderTitle={settings.showHeaderTitle} />
         <Nav currentPath={currentPath} />
         <div class="main">
           <slot />
         </div>
         <Footer text={settings.footerText} />
       </div>
+      {settings.showBackToTop && <BackToTop client:load />}
     </div>
   </body>
 </html>
