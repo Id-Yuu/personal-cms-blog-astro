@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { usePosts } from '../hooks/usePosts';
+import { usePages } from '../hooks/usePages';
 import { useSidebars } from '../hooks/useSidebars';
 import { useWidgets } from '../hooks/useWidgets';
 import { useUsers } from '../hooks/useUsers';
 import { useSettings } from '../hooks/useSettings';
 
 import PostsTab from './dashboard/PostsTab';
+import PagesTab from './dashboard/PagesTab';
 import SidebarsTab from './dashboard/SidebarsTab';
 import WidgetTab from './dashboard/WidgetTab';
 import UsersTab from './dashboard/UsersTab';
@@ -19,6 +21,7 @@ export default function Dashboard() {
   const isAdmin = role === 'admin';
   
   const { posts, createPost, updatePost, deletePost } = usePosts();
+  const { pages, createPage, updatePage, deletePage } = usePages();
   const { sidebars, createSidebar, updateSidebar, deleteSidebar } = useSidebars();
   const { widgets, createWidget, updateWidget, deleteWidget } = useWidgets();
   const { users, createUser, updateUser, deleteUser } = useUsers();
@@ -37,6 +40,7 @@ export default function Dashboard() {
       {/* Tabs Menu */}
       <div className="tab-bar">
         <button onClick={() => setActiveTab('posts')} className={`btn tab-btn ${activeTab === 'posts' ? 'tab-btn--active' : ''}`}>Manage Posts</button>
+        <button onClick={() => setActiveTab('pages')} className={`btn tab-btn ${activeTab === 'pages' ? 'tab-btn--active' : ''}`}>Manage Pages</button>
         {isAdmin && <button onClick={() => setActiveTab('sidebars')} className={`btn tab-btn ${activeTab === 'sidebars' ? 'tab-btn--active' : ''}`}>Manage Sidebars</button>}
         {isAdmin && <button onClick={() => setActiveTab('widgets')} className={`btn tab-btn ${activeTab === 'widgets' ? 'tab-btn--active' : ''}`}>Manage Top Widgets</button>}
         {isAdmin && <button onClick={() => setActiveTab('users')} className={`btn tab-btn ${activeTab === 'users' ? 'tab-btn--active' : ''}`}>Manage Users</button>}
@@ -50,6 +54,15 @@ export default function Dashboard() {
           createPost={createPost} 
           updatePost={updatePost} 
           deletePost={deletePost} 
+        />
+      )}
+
+      {activeTab === 'pages' && (
+        <PagesTab
+          pages={pages}
+          createPage={createPage}
+          updatePage={updatePage}
+          deletePage={deletePage}
         />
       )}
       

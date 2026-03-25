@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export default function SidebarsTab({ sidebars, createSidebar, updateSidebar, deleteSidebar }) {
-  const [sidebarForm, setSidebarForm] = useState({ title: '', content: '', links: [] });
+  const [sidebarForm, setSidebarForm] = useState({ title: '', content: '', links: [], isPlayground: false });
   const [isEditingSidebar, setIsEditingSidebar] = useState(false);
   const [editSidebarId, setEditSidebarId] = useState(null);
 
@@ -33,13 +33,13 @@ export default function SidebarsTab({ sidebars, createSidebar, updateSidebar, de
   const editSidebar = (sidebar) => {
     setIsEditingSidebar(true); 
     setEditSidebarId(sidebar.id);
-    setSidebarForm({ title: sidebar.title, content: sidebar.content || '', links: sidebar.links || [] });
+    setSidebarForm({ title: sidebar.title, content: sidebar.content || '', links: sidebar.links || [], isPlayground: !!sidebar.isPlayground });
   };
 
   const cancelSidebarEdit = () => {
     setIsEditingSidebar(false); 
     setEditSidebarId(null);
-    setSidebarForm({ title: '', content: '', links: [] });
+    setSidebarForm({ title: '', content: '', links: [], isPlayground: false });
   };
 
   const handleDelete = (id) => {
@@ -60,6 +60,18 @@ export default function SidebarsTab({ sidebars, createSidebar, updateSidebar, de
           <div className="form-group">
             <label className="form-label">Widget Content/Description (Optional)</label>
             <textarea name="content" value={sidebarForm.content} onChange={handleSidebarChange} rows="3" placeholder="Brief text to display under title" />
+          </div>
+          <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <input 
+              type="checkbox" 
+              name="isPlayground" 
+              id="sidebarPlayground"
+              checked={!!sidebarForm.isPlayground} 
+              onChange={(e) => setSidebarForm({ ...sidebarForm, isPlayground: e.target.checked })} 
+            />
+            <label htmlFor="sidebarPlayground" className="form-label" style={{ marginBottom: 0 }}>
+              Render Content as HTML/JS Playground
+            </label>
           </div>
 
           <div className="form-group form-link-group">

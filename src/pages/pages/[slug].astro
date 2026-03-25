@@ -1,0 +1,34 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Sidebar from '../../components/Sidebar.jsx';
+
+export async function getStaticPaths() {
+  try {
+    const res = await fetch('http://localhost:4000/pages');
+    const pages = await res.json();
+    return (Array.isArray(pages) ? pages : []).map((page) => ({
+      params: { slug: page.slug },
+      props: { page },
+    }));
+  } catch (e) {
+    return [];
+  }
+}
+
+const { page } = Astro.props;
+---
+
+<MainLayout title={page.title}>
+  <main class="main-wrapper">
+    <article class="blog-post">
+      {page.image && (
+        <div class="image">
+          <img src={page.image} alt={page.title} />
+        </div>
+      )}
+      <h1>{page.title}</h1>
+      <div class="post-body" set:html={page.content} />
+    </article>
+  </main>
+  <Sidebar client:load />
+</MainLayout>

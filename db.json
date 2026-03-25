@@ -1,4 +1,20 @@
 {
+  "pages": [
+    {
+      "title": "About",
+      "slug": "about",
+      "content": "<div class=\"image\"><img src=\"/img/1774272465918.png\" alt=\"About Image\" /></div><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptates, quas, quos, quod quae quia quibusdam voluptate voluptatem quae quia quibusdam voluptate voluptatem.</p>",
+      "image": "",
+      "id": "page-about"
+    },
+    {
+      "title": "Contact",
+      "slug": "contact",
+      "content": "<div class=\"image\"><img src=\"/img/sample.png\" alt=\"Contact Image\" /></div><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptates, quas, quos, quod quae quia quibusdam voluptate voluptatem quae quia quibusdam voluptate voluptatem.</p>",
+      "image": "",
+      "id": "page-contact"
+    }
+  ],
   "widgets": [
     {
       "title": "Info",
@@ -19,11 +35,11 @@
       "links": [
         {
           "text": "About",
-          "url": "/about"
+          "url": "/pages/about"
         },
         {
           "text": "Contact",
-          "url": "/contact"
+          "url": "/pages/contact"
         }
       ],
       "id": "1774218577652"
@@ -34,7 +50,7 @@
     "headerDesc": "Template Blog Astro",
     "footerText": "© 2026 Kocak Gaming. All rights reserved.",
     "postsPerPage": "3",
-    "themeMode": "dark",
+    "themeMode": "light",
     "showBackToTop": true,
     "headerBgImage": "/img-setting/settings-1774350398739.png",
     "bodyBgImageLeft": "/img-setting/settings-1774350409035.png",

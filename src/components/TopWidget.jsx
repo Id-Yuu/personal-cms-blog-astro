@@ -1,4 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+function PlaygroundWidget({ content }) {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !content) return;
+
+    // 1. Parse the HTML string with DOMParser to get clean script textContent
+    const parsed = new DOMParser().parseFromString(content, 'text/html');
+    const scriptInfos = Array.from(parsed.querySelectorAll('script')).map(s => ({
+      text: s.textContent,
+      attrs: Array.from(s.attributes).map(a => ({ name: a.name, value: a.value }))
+    }));
+
+    // 2. Set innerHTML for styles/markup
+    container.innerHTML = content;
+
+    // 3. Remove inert scripts
+    Array.from(container.querySelectorAll('script')).forEach(s => s.remove());
+
+    // 4. Re-inject each script as a fresh executable element
+    scriptInfos.forEach(({ text, attrs }) => {
+      const newScript = document.createElement('script');
+      attrs.forEach(({ name, value }) => newScript.setAttribute(name, value));
+      newScript.textContent = text;
+      container.appendChild(newScript);
+    });
+  }, [content]);
+
+  return <div ref={containerRef} className="top-widget-playground" />;
+}
 
 export default function TopWidget() {
   const [widgets, setWidgets] = useState([]);
@@ -45,7 +77,13 @@ export default function TopWidget() {
           </button>
           
           {widget.title && <h4 className="top-widget-title">{widget.title}</h4>}
-          {widget.content && <p className="top-widget-text">{widget.content}</p>}
+          
+          {widget.isPlayground ? (
+            <PlaygroundWidget content={widget.content} />
+          ) : (
+            widget.content && <p className="top-widget-text">{widget.content}</p>
+          )}
+
           {widget.links && widget.links.length > 0 && (
             <div className="top-widget-links">
               {widget.links.map((link, index) => (

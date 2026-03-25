@@ -1,21 +1,4 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import Sidebar from '../components/Sidebar.jsx';
+// /about now lives at /pages/about — redirect any direct access
+return Astro.redirect('/pages/about', 301);
 ---
-
-<MainLayout title="About">
-  <main class="main-wrapper">
-    <h2>About</h2>
-    <div class="blog-post">
-        <div class="image">
-            <img src="/img/sample.png" alt="About Image" />
-        </div>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptates, quas, quos, quod quae quia quibusdam voluptate
-            voluptatem quae quia quibusdam voluptate voluptatem.
-        </p>
-    </div>
-  </main>
-  <Sidebar />
-</MainLayout>

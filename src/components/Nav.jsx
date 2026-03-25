@@ -1,9 +1,16 @@
-export default function Nav({ currentPath }) {
+export default function Nav({ currentPath, pages = [] }) {
   return (
     <nav className="nav">
       <a href="/" className={currentPath === '/' ? 'active' : ''}>Home</a>
-      <a href="/about" className={currentPath === '/about' ? 'active' : ''}>About</a>
-      <a href="/contact" className={currentPath === '/contact' ? 'active' : ''}>Contact</a>
+      {pages.map(page => (
+        <a
+          key={page.id}
+          href={`/pages/${page.slug}`}
+          className={currentPath === `/pages/${page.slug}` ? 'active' : ''}
+        >
+          {page.title}
+        </a>
+      ))}
       <a href="/login" className="nav-dashboard">Dashboard</a>
     </nav>
   );

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export default function WidgetTab({ widgets, createWidget, updateWidget, deleteWidget }) {
-  const [widgetForm, setWidgetForm] = useState({ title: '', content: '', links: [] });
+  const [widgetForm, setWidgetForm] = useState({ title: '', content: '', links: [], isPlayground: false });
   const [isEditingWidget, setIsEditingWidget] = useState(false);
   const [editWidgetId, setEditWidgetId] = useState(null);
 
@@ -33,13 +33,13 @@ export default function WidgetTab({ widgets, createWidget, updateWidget, deleteW
   const editWidget = (widget) => {
     setIsEditingWidget(true); 
     setEditWidgetId(widget.id);
-    setWidgetForm({ title: widget.title, content: widget.content || '', links: widget.links || [] });
+    setWidgetForm({ title: widget.title, content: widget.content || '', links: widget.links || [], isPlayground: !!widget.isPlayground });
   };
 
   const cancelWidgetEdit = () => {
     setIsEditingWidget(false); 
     setEditWidgetId(null);
-    setWidgetForm({ title: '', content: '', links: [] });
+    setWidgetForm({ title: '', content: '', links: [], isPlayground: false });
   };
 
   const handleDelete = (id) => {
@@ -60,6 +60,18 @@ export default function WidgetTab({ widgets, createWidget, updateWidget, deleteW
           <div className="form-group">
             <label className="form-label">Widget Content/Description (Optional)</label>
             <textarea name="content" value={widgetForm.content} onChange={handleWidgetChange} rows="3" placeholder="Brief text to display" />
+          </div>
+          <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <input 
+              type="checkbox" 
+              name="isPlayground" 
+              id="topWidgetPlayground"
+              checked={!!widgetForm.isPlayground} 
+              onChange={(e) => setWidgetForm({ ...widgetForm, isPlayground: e.target.checked })} 
+            />
+            <label htmlFor="topWidgetPlayground" className="form-label" style={{ marginBottom: 0 }}>
+              Render Content as HTML/JS Playground
+            </label>
           </div>
 
           <div className="form-group form-link-group">

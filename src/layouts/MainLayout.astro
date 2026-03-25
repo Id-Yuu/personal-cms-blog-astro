@@ -19,6 +19,18 @@ try {
   console.error("Could not fetch settings");
 }
 
+// Fetch dynamic pages for Nav
+let navPages = [];
+try {
+  const pagesRes = await fetch('http://localhost:4000/pages');
+  if (pagesRes.ok) {
+    const pagesData = await pagesRes.json();
+    navPages = Array.isArray(pagesData) ? pagesData : [];
+  }
+} catch (e) {
+  console.error("Could not fetch pages for nav");
+}
+
 let bgLayers = [];
 if (settings.bodyBgImageLeft) {
   bgLayers.push(`url(${settings.bodyBgImageLeft}) ${settings.bodyBgPositionLeft || 'left top'} / ${settings.bodyBgSizeLeft || 'auto'} no-repeat`);
@@ -45,7 +57,7 @@ const bodyBgCustom = bgLayers.length > 0 ? bgLayers.join(', ') + ', var(--bg-col
     <div id="root">
       <div class="container">
         <Header title={settings.headerTitle} desc={settings.headerDesc} showHeaderTitle={settings.showHeaderTitle} />
-        <Nav currentPath={currentPath} />
+        <Nav currentPath={currentPath} pages={navPages} />
         <div class="main">
           <slot />
         </div>
