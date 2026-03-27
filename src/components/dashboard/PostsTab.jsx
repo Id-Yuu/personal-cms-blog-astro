@@ -7,6 +7,7 @@ export default function PostsTab({ posts, createPost, updatePost, deletePost }) 
   const [existingImage, setExistingImage] = useState('');
   const [isEditingPost, setIsEditingPost] = useState(false);
   const [editPostId, setEditPostId] = useState(null);
+  const [sortOrder, setSortOrder] = useState('recent');
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -72,17 +73,65 @@ export default function PostsTab({ posts, createPost, updatePost, deletePost }) 
         </form>
       </div>
 
-      <h3>Existing Posts</h3>
+      <div className="posts-list-header">
+        <h3>Existing Posts</h3>
+        <div className="sort-toolbar">
+          <span className="sort-label">Sort by:</span>
+          <button
+            className={`sort-btn${sortOrder === 'recent' ? ' sort-btn-active' : ''}`}
+            onClick={() => setSortOrder('recent')}
+            title="Most recent first"
+          >
+            🕒 Recent
+          </button>
+          <button
+            className={`sort-btn${sortOrder === 'oldest' ? ' sort-btn-active' : ''}`}
+            onClick={() => setSortOrder('oldest')}
+            title="Oldest first"
+          >
+            📅 Oldest
+          </button>
+          <button
+            className={`sort-btn${sortOrder === 'az' ? ' sort-btn-active' : ''}`}
+            onClick={() => setSortOrder('az')}
+            title="Name A to Z"
+          >
+            🔤 A → Z
+          </button>
+          <button
+            className={`sort-btn${sortOrder === 'za' ? ' sort-btn-active' : ''}`}
+            onClick={() => setSortOrder('za')}
+            title="Name Z to A"
+          >
+            🔤 Z → A
+          </button>
+        </div>
+      </div>
       <ul className="dashboard-list">
-        {Array.isArray(posts) && posts.length > 0 ? posts.map(post => (
-          <li key={post.id} className="dashboard-list-item">
-            <div className="dashboard-list-text">{post.title}</div>
-            <div className="dashboard-list-actions">
-              <button onClick={() => editPost(post)} className="btn btn-edit">Edit</button>
-              <button onClick={() => handleDelete(post.id)} className="btn btn-delete">Delete</button>
-            </div>
-          </li>
-        )) : <p>No posts found.</p>}
+        {Array.isArray(posts) && posts.length > 0 ? [...posts]
+          .sort((a, b) => {
+            if (sortOrder === 'recent') return new Date(b.date || b.id || 0) - new Date(a.date || a.id || 0);
+            if (sortOrder === 'oldest') return new Date(a.date || a.id || 0) - new Date(b.date || b.id || 0);
+            if (sortOrder === 'az') return (a.title || '').localeCompare(b.title || '');
+            if (sortOrder === 'za') return (b.title || '').localeCompare(a.title || '');
+            return 0;
+          })
+          .map(post => (
+            <li key={post.id} className="dashboard-list-item">
+              <div className="dashboard-list-text">
+                <span className="post-title">{post.title}</span>
+                {post.date && (
+                  <span className="post-date">
+                    {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </span>
+                )}
+              </div>
+              <div className="dashboard-list-actions">
+                <button onClick={() => editPost(post)} className="btn btn-edit">Edit</button>
+                <button onClick={() => handleDelete(post.id)} className="btn btn-delete">Delete</button>
+              </div>
+            </li>
+          )) : <p>No posts found.</p>}
       </ul>
     </>
   );

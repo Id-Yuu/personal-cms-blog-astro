@@ -34,7 +34,20 @@ export function usePosts() {
       finalImageUrl = uploadResult.imageUrl;
     }
 
-    const finalPayload = { ...payload, image: finalImageUrl, id: String(Date.now()) };
+    // Extract userId and role from token: "mock-jwt-token-{userId}-{role}-{timestamp}"
+    const storedToken = localStorage.getItem('token') || '';
+    const tokenParts = storedToken.replace('mock-jwt-token-', '').split('-');
+    const postedBy = tokenParts[0] || '';
+    const postedByRole = tokenParts[1] || '';
+
+    const finalPayload = {
+      ...payload,
+      image: finalImageUrl,
+      id: String(Date.now()),
+      date: new Date().toISOString(),
+      postedBy,
+      postedByRole,
+    };
 
     const res = await fetchWithAuth(`${API_URL}/posts`, {
       method: 'POST',

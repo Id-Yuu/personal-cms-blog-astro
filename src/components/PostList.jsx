@@ -4,22 +4,22 @@ export default function PostList({ initialPosts, postsPerPage }) {
   const [posts, setPosts] = useState(initialPosts);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // If the initial fetch returned exactly the limit, there MIGHT be more posts.
   const [hasMore, setHasMore] = useState(initialPosts.length === parseInt(postsPerPage));
 
   const loadMorePosts = async () => {
     setIsLoading(true);
     const nextPage = page + 1;
-    
+
     try {
       // Fetch next page, sorted newest first
       const res = await fetch(`http://localhost:4000/posts?_sort=id&_order=desc&_page=${nextPage}&_limit=${postsPerPage}`);
       const newPosts = await res.json();
-      
+
       setPosts([...posts, ...newPosts]);
       setPage(nextPage);
-      
+
       // If the API returns fewer posts than our limit, we've reached the end
       if (newPosts.length < parseInt(postsPerPage)) {
         setHasMore(false);
@@ -40,20 +40,37 @@ export default function PostList({ initialPosts, postsPerPage }) {
           </h2>
           <div className="post-preview">
             {post.image && (
-               <div className="image">
-                 <img src={post.image} alt={post.title} />
-               </div>
+              <div className="image">
+                <img src={post.image} alt={post.title} />
+              </div>
             )}
             <div className="post-preview-content">
               <p className="post-preview-text">
                 {(post.content || '').replace(/<[^>]*>?/gm, '')}
               </p>
+              {(post.postedByRole || post.date) && (
+                <div className="post-meta">
+                  {post.postedByRole && (
+                    <span className="post-meta-author">
+                      <span className="post-meta-icon"> - </span>
+                      Posted by <span className="post-meta-role">{post.postedByRole}</span>
+                    </span>
+                  )}
+                  {post.postedByRole && post.date && <span className="post-meta-sep">·</span>}
+                  {post.date && (
+                    <span className="post-meta-date">
+                      <span className="post-meta-icon">📅</span>
+                      {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </span>
+                  )}
+                </div>
+              )}
               <a href={`/posts/${post.id}`} className="btn btn-sm">Read More</a>
             </div>
           </div>
         </div>
       ))}
-      
+
       {posts.length === 0 && <p>No posts available yet.</p>}
 
       {hasMore && (
