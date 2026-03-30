@@ -50,7 +50,7 @@
     "headerDesc": "Template Blog Astro",
     "footerText": "© 2026 Kocak Gaming. All rights reserved.",
     "postsPerPage": "3",
-    "themeMode": "light",
+    "themeMode": "dark",
     "showBackToTop": true,
     "headerBgImage": "/img-setting/settings-1774350398739.png",
     "bodyBgImageLeft": "/img-setting/settings-1774350409035.png",

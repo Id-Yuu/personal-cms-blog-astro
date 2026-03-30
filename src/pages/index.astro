@@ -2,29 +2,32 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import Sidebar from '../components/Sidebar.jsx';
 import PostList from '../components/PostList.jsx';
+import { readFileSync } from 'fs';
+import path from 'path';
 
-// 1. Fetch Global Settings to get the pagination limit
-let settings = { postsPerPage: 3 }; 
+// 1. Read Global Settings from db.json to get the pagination limit
+let settings: Record<string, any> = { postsPerPage: 3 };
 try {
-  const settingsRes = await fetch('http://localhost:4000/settings');
-  if (settingsRes.ok) {
-    settings = await settingsRes.json();
-  }
+  const dbRaw = readFileSync(path.join(process.cwd(), 'db.json'), 'utf-8');
+  const db = JSON.parse(dbRaw);
+  if (db.settings) settings = db.settings;
 } catch (e) {
-  console.error("Could not fetch settings");
+  console.error("Could not read settings from db.json");
 }
 
-const limit = settings.postsPerPage || 3;
+const limit = Number(settings.postsPerPage) || 3;
 
-// 2. Fetch the FIRST page of posts (Sorted by newest first)
-let initialPosts = [];
+// 2. Read posts from posts.json, sorted newest-first, limited to first page
+let initialPosts: any[] = [];
 try {
-  const postsRes = await fetch(`http://localhost:4000/posts?_sort=id&_order=desc&_page=1&_limit=${limit}`);
-  if (postsRes.ok) {
-    initialPosts = await postsRes.json();
-  }
+  const postsRaw = readFileSync(path.join(process.cwd(), 'posts.json'), 'utf-8');
+  const allPosts = JSON.parse(postsRaw).posts ?? [];
+  // Sort by id descending (id is a timestamp string), then take the first page
+  initialPosts = [...allPosts]
+    .sort((a, b) => Number(b.id) - Number(a.id))
+    .slice(0, limit);
 } catch (e) {
-  console.error("Could not fetch posts");
+  console.error("Could not read posts from posts.json");
 }
 ---
 

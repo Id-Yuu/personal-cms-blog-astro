@@ -1,12 +1,14 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import Sidebar from '../../components/Sidebar.jsx';
+import { readFileSync } from 'fs';
+import path from 'path';
 
 export async function getStaticPaths() {
   try {
-    const res = await fetch('http://localhost:4000/pages');
-    const pages = await res.json();
-    return (Array.isArray(pages) ? pages : []).map((page) => ({
+    const dbRaw = readFileSync(path.join(process.cwd(), 'db.json'), 'utf-8');
+    const pages = JSON.parse(dbRaw).pages ?? [];
+    return (Array.isArray(pages) ? pages : []).map((page: any) => ({
       params: { slug: page.slug },
       props: { page },
     }));

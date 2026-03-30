@@ -4,31 +4,31 @@ import Header from '../components/Header.jsx';
 import Nav from '../components/Nav.jsx';
 import Footer from '../components/Footer.jsx';
 import BackToTop from '../components/BackToTop.jsx';
+import { readFileSync } from 'fs';
+import path from 'path';
 
 const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
 
-// Fetch global settings
-let settings = { headerTitle: 'Blog', headerDesc: 'Loading...', footerText: '© 2025' };
+
+// Read global settings directly from db.json (works at build time without the server)
+let settings: Record<string, any> = { headerTitle: 'Blog', headerDesc: 'Loading...', footerText: '© 2025' };
 try {
-  const res = await fetch('http://localhost:4000/settings');
-  if (res.ok) {
-    settings = await res.json();
-  }
+  const dbRaw = readFileSync(path.join(process.cwd(), 'db.json'), 'utf-8');
+  const db = JSON.parse(dbRaw);
+  if (db.settings) settings = db.settings;
 } catch (e) {
-  console.error("Could not fetch settings");
+  console.error("Could not read settings from db.json");
 }
 
-// Fetch dynamic pages for Nav
-let navPages = [];
+// Read dynamic pages for Nav directly from db.json
+let navPages: any[] = [];
 try {
-  const pagesRes = await fetch('http://localhost:4000/pages');
-  if (pagesRes.ok) {
-    const pagesData = await pagesRes.json();
-    navPages = Array.isArray(pagesData) ? pagesData : [];
-  }
+  const dbRaw = readFileSync(path.join(process.cwd(), 'db.json'), 'utf-8');
+  const db = JSON.parse(dbRaw);
+  navPages = Array.isArray(db.pages) ? db.pages : [];
 } catch (e) {
-  console.error("Could not fetch pages for nav");
+  console.error("Could not read pages from db.json");
 }
 
 let bgLayers = [];
@@ -57,7 +57,7 @@ const bodyBgCustom = bgLayers.length > 0 ? bgLayers.join(', ') + ', var(--bg-col
     <div id="root">
       <div class="container">
         <Header title={settings.headerTitle} desc={settings.headerDesc} showHeaderTitle={settings.showHeaderTitle} />
-        <Nav currentPath={currentPath} pages={navPages} />
+        <Nav currentPath={currentPath} pages={navPages as never[]} />
         <div class="main">
           <slot />
         </div>
